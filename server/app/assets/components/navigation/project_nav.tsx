@@ -9,7 +9,7 @@ export interface ProjectNavModel {
 export class ProjectNavComponent extends React.Component<ProjectNavModel, {}> {
   render(): JSX.Element {
     return (
-      <nav className="">
+      <nav className={styles.sideNavigation}>
         <div></div>
       </nav>
     )

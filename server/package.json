@@ -12,6 +12,7 @@
     "style-loader": "^0.13.1",
     "ts-loader": "^0.8.2",
     "typescript": "^1.8.10",
-    "webpack": "^1.12.10"
+    "webpack": "^1.12.10",
+    "webpack-combine-loaders": "^2.0.0"
   }
 }

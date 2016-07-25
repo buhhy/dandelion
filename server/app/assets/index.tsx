@@ -6,12 +6,22 @@ import {ContentPanelComponent} from './components/navigation/content_panel';
 
 var styles = require('./index.scss');
 
+class NavigationModel {
+  coreButtonLabel: String = "Dandelion";
+  actionBarLabel: String = "Ads";
+}
+
 class Root extends React.Component<any, {}> {
+  navigationModel: NavigationModel = new NavigationModel();
+
   render() {
     return (
       <section className={styles.body}>
-        <NavigationBarComponent />
-        <section>
+        <NavigationBarComponent
+            styleName={styles.navigation}
+            coreButtonLabel={this.navigationModel.coreButtonLabel}
+            actionBarLabel={this.navigationModel.actionBarLabel}/>
+        <section className={styles.content}>
           <ProjectNavComponent />
           <ContentPanelComponent />
         </section>

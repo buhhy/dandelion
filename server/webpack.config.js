@@ -1,6 +1,7 @@
 'use strict';
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var combineLoaders = require("webpack-combine-loaders");
 
 var webpack = require('webpack');
 var tsxPath  = 'app/assets';
@@ -34,12 +35,23 @@ module.exports = {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract(
             "style-loader",
-            [
-              "css-loader?modules&importLoaders=1&" +
-                  "localIdentName=[name]_[local]_[hash:base64:5]",
-              "postcss-loader",
-              "sass-loader"
-            ])
+            combineLoaders([
+              {
+                loader: "css-loader",
+                query: {
+                  camelCase: true,
+                  modules: true,
+                  sourceMap: true,
+                  importLoaders: 1,
+                  localIdentName: "[name]_[local]_[hash:base64:5]"
+                }
+              }, {
+                loader: "postcss-loader"
+              }, {
+                loader: "sass-loader",
+                includePaths: ["apps/assets"]
+              }
+            ]))
       },
       { test: /\.png$/, loader: "url-loader?limit=100000" },
       { test: /\.jpg$/, loader: "file-loader" }
