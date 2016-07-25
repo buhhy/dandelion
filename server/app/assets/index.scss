@@ -8,6 +8,7 @@ html, body {
 .body {
   display: flex;
   flex-direction: column;
+  font-family: Lato, sans-serif;
   height: 100%;
   width: 100%;
 }
@@ -21,4 +22,12 @@ html, body {
   display: flex;
   flex: 1 1 auto;
   flex-direction: row;
+
+  .project-navigation {
+    flex: 0 0 auto;
+  }
+
+  .content-panel {
+    flex: 1 1 auto;
+  }
 }

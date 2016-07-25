@@ -16,12 +16,20 @@
   box-sizing: border-box;
   display: flex;
   flex: 0 0 auto;
-  padding-left: 14px;
+  padding: 0 16px 0;
   width: $side-navigation-open-width;
 
-  .label {
-    font-size: 16px;
-    text-transform: uppercase;
+  .logo-container {
+    flex: 1 1 auto;
+
+    .logo {
+      width: 100px;
+    }
+  }
+
+  .bell {
+    flex: 0 0 auto;
+    width: 20px;
   }
 }
 

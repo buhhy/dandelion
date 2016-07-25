@@ -1,8 +1,8 @@
-import {NavigationBarComponent} from './components/navigation/navigation_bar';
-import {ProjectNavComponent} from './components/navigation/project_nav';
+import {NavigationBarComponent} from './infra/navigation/navigation_bar';
+import {ProjectNavComponent} from './infra/navigation/project_nav';
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
-import {ContentPanelComponent} from './components/navigation/content_panel';
+import {ContentPanelComponent} from './infra/navigation/content_panel';
 
 var styles = require('./index.scss');
 
@@ -18,12 +18,14 @@ class Root extends React.Component<any, {}> {
     return (
       <section className={styles.body}>
         <NavigationBarComponent
-            styleName={styles.navigation}
+            className={styles.navigation}
             coreButtonLabel={this.navigationModel.coreButtonLabel}
             actionBarLabel={this.navigationModel.actionBarLabel}/>
         <section className={styles.content}>
-          <ProjectNavComponent />
-          <ContentPanelComponent />
+          <ProjectNavComponent
+              className={styles.projectNavigation} />
+          <ContentPanelComponent
+              className={styles.contentPanel}/>
         </section>
       </section>
     );

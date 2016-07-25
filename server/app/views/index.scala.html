@@ -4,17 +4,22 @@
 <!doctype html>
 <html>
   <head>
-    @* In this version of the application the typescript compilation is done by the play framework.
-    The browser downloads .js files. *@
     <meta charset="utf-8">
-    <title>Testz</title>
+    <title>Dandelion</title>
     <style>
       body > .app-container {
         width: 100%;
         height: 100%;
       }
     </style>
-    <link type="text/css" rel="stylesheet" href="@routes.Assets.versioned("styles.css")" />
+    <link
+        href='https://fonts.googleapis.com/css?family=Lato:400,300,700'
+        rel='stylesheet'
+        type='text/css'>
+    <link
+        href="@routes.Assets.versioned("styles.css")"
+        type="text/css"
+        rel="stylesheet">
   </head>
   <body>
     <div id="app" class="app-container"></div>

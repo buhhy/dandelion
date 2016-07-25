@@ -23,15 +23,19 @@ module.exports = {
   devtool: 'source-map',
   resolve: {
     // alias: {},
-    // root: srcPath,
+    root: srcPath, // Allows using absolute paths for Typescript module imports.
     extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
     // modulesDirectories: ['node_modules', tsxPath]
   },
   module: {
     // noParse: [],
     loaders: [
-      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
+        // Typescript loader
+        test: /\.tsx?$/,
+        loader: 'ts-loader'
+      }, {
+        // Sass loader
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract(
             "style-loader",
@@ -52,19 +56,19 @@ module.exports = {
                 includePaths: ["apps/assets"]
               }
             ]))
-      },
-      { test: /\.png$/, loader: "url-loader?limit=100000" },
-      { test: /\.jpg$/, loader: "file-loader" }
-      // {
-      //   test: /\.jsx?$/,
-      //   exclude: /node_modules/,
-      //   loader: 'babel'
-      // },
-      // {
-      //   test: /\.scss$/,
-      //   include: /\/app\/assets/,
-      //   loader: 'style!css!sass'
-      // }
+      }, {
+        // Asset loader
+        test: /\.(woff|woff2|ttf|eot)$/,
+        loader: 'file'
+      }, {
+        // Image loader
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader:'file'
+      }, {
+        // Html loader
+        test: /\.html$/,
+        loader: 'html-loader'
+      }
     ],
     preLoaders: [
       { test: /\.js$/, loader: 'source-map-loader' }

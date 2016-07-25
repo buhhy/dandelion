@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 
 var styles = require('./test1.scss');
 
-import { Hello } from './components/hello';
+import { Hello } from './infra/hello';
 
 class FilterableProductTable extends React.Component<any, {}> {
   render() {
