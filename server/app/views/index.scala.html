@@ -1,0 +1,17 @@
+@import org.webjars.play.RequireJS
+@(webJarAssets: WebJarAssets, requireJs: RequireJS)
+
+<!doctype html>
+<html>
+  <head>
+    @* In this version of the application the typescript compilation is done by the play framework.
+    The browser downloads .js files. *@
+    <meta charset="utf-8">
+    <title>Testz</title>
+    <link type="text/css" rel="stylesheet" href="@routes.Assets.versioned("styles.css")" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="@routes.Assets.versioned("app.js")"></script>
+  </body>
+</html>
