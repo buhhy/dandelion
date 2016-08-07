@@ -1,0 +1,10 @@
+FROM nodesource/node:6.3.0
+
+RUN useradd --user-group --create-home --shell /bin/false dandelion && echo
+ENV HOME=/home/dandelion
+WORKDIR $HOME/client-deps
+
+ADD package.json package.json
+RUN NODE_ENV=development npm install
+
+CMD ["echo", "Installed dependencies."]

@@ -1,0 +1,64 @@
+version: '2'
+services:
+    db:
+        image: postgres
+        ports:
+            - "3002:5432"
+    client-deps:
+        build:
+            context: ../client
+            dockerfile: ./config/Dockerfile.deps.dev
+        volumes:
+            - dandelion:/home/dandelion
+    server-deps:
+        build:
+            context: ../server
+            dockerfile: ./config/Dockerfile.deps.dev
+        volumes:
+            - dandelion:/home/dandelion
+    server-schema:
+        build:
+            context: ../server
+            dockerfile: ./config/Dockerfile.schema.dev
+        depends_on:
+            - server-deps
+        volumes:
+            - dandelion:/home/dandelion
+            - ../server:/home/dandelion/server
+    server:
+        build:
+            context: ../server
+            dockerfile: ./config/Dockerfile.dev
+            args:
+                - NODE=development
+        links:
+            - db
+        depends_on:
+            - db
+            - server-deps
+            - server-schema
+        volumes:
+            - dandelion:/home/dandelion
+            - ../server:/home/dandelion/server
+        environment:
+            - PGHOST=db
+            - PGDATABASE=postgres
+            - PGUSER=postgres
+    client:
+        build:
+            context: ../client
+            dockerfile: ./config/Dockerfile.dev
+            args:
+                - NODE=development
+        ports:
+            - "3000:3000"
+        links:
+            - server
+        depends_on:
+            - server
+            - client-deps
+        volumes:
+            - dandelion:/home/dandelion
+            - ../client:/home/dandelion/client
+volumes:
+    dandelion: {}

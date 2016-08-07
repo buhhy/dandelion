@@ -1,0 +1,20 @@
+version: '2'
+services:
+    db:
+        image: postgres
+        ports:
+            - "3002:5432"
+        volumes:
+            - /srv/db/dandelion-postgres:/var/lib/postgresql/data
+    client:
+        image: sheepie/dandelion-client
+        ports:
+            - "3000:3000"
+        links:
+            - db
+        volumes:
+            - /srv/servers/dandelion/shared:/home/dandelion/shared
+        environment:
+            - PGHOST=db
+            - PGDATABASE=postgres
+            - PGUSER=postgres
