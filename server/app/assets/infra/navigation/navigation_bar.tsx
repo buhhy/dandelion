@@ -17,7 +17,7 @@ export class NavigationBarComponent extends React.Component<NavigationBarModel, 
   };
 
   render(): JSX.Element {
-    var rootClasses = classNames([this.props.className, styles.navigationBar]);
+    let rootClasses = classNames([this.props.className, styles.navigationBar]);
     return (
         <nav className={rootClasses}>
           <div className={styles.coreButton}>

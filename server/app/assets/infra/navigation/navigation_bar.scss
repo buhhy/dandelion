@@ -3,10 +3,10 @@
 .navigation-bar {
   align-items: stretch;
   border-bottom: 1px solid $border-gray-light;
-  box-shadow: 0px 1px 5px 0px rgba(230,230,230,1);
+  box-shadow: 0 1px 5px 0 rgba(230,230,230,1);
   display: flex;
   flex-direction: row;
-  height: 56px;
+  height: 60px;
   position: relative; // Puts box shadow on top of content.
 }
 
@@ -16,7 +16,7 @@
   box-sizing: border-box;
   display: flex;
   flex: 0 0 auto;
-  padding: 0 16px 0;
+  padding: 0 20px 0;
   width: $side-navigation-open-width;
 
   .logo-container {

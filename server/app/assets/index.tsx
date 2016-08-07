@@ -1,8 +1,8 @@
-import {NavigationBarComponent} from './infra/navigation/navigation_bar';
-import {ProjectNavComponent} from './infra/navigation/project_nav';
+import {ContentPanelComponent} from 'infra/navigation/content_panel';
+import {NavigationBarComponent} from 'infra/navigation/navigation_bar';
+import {LefNavComponent} from 'infra/navigation/left_nav';
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
-import {ContentPanelComponent} from './infra/navigation/content_panel';
 
 var styles = require('./index.scss');
 
@@ -22,7 +22,7 @@ class Root extends React.Component<any, {}> {
             coreButtonLabel={this.navigationModel.coreButtonLabel}
             actionBarLabel={this.navigationModel.actionBarLabel}/>
         <section className={styles.content}>
-          <ProjectNavComponent
+          <LefNavComponent
               className={styles.projectNavigation} />
           <ContentPanelComponent
               className={styles.contentPanel}/>
