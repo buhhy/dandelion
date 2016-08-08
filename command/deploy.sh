@@ -10,26 +10,27 @@ docker-compose \
     -f infrastructure/docker-compose.prod.build.yml \
     build
 
+docker tag dandelion_client:latest sheepie/dandelion-client:latest
+docker tag dandelion_server:latest sheepie/dandelion-server:latest
 
+docker push sheepie/dandelion-client
+docker push sheepie/dandelion-server
 
-# docker tag dandelion_dandelion:latest sheepie/dandelion:latest
-#
-# docker push sheepie/dandelion
-#
-# scp infrastructure/util/ensure_docker_authed.sh \
-#     infrastructure/docker-compose.prod.run.yml \
-#     ec2-user@terencelei.com:$SERVER_PATH
-#
-# ssh ec2-user@terencelei.com 'bash -s' <<-END
-#     cd $SERVER_PATH
-#
-#     ./ensure_docker_authed.sh
-#
-#     docker pull sheepie/dandelion
-#
-#     # -d means run in daemon mode, i.e. no interactive shell
-#     docker-compose \
-#         --project-name dandelion \
-#         -f docker-compose.prod.run.yml \
-#         up -d
-# END
+scp infrastructure/util/ensure_docker_authed.sh \
+    infrastructure/docker-compose.prod.run.yml \
+    ec2-user@terencelei.com:$SERVER_PATH
+
+ssh ec2-user@terencelei.com 'bash -s' <<-END
+    cd $SERVER_PATH
+
+    ./ensure_docker_authed.sh
+
+    docker pull sheepie/dandelion-client
+    docker pull sheepie/dandelion-server
+
+    # -d means run in daemon mode, i.e. no interactive shell
+    docker-compose \
+        --project-name dandelion \
+        -f docker-compose.prod.run.yml \
+        up -d --remove-orphans
+END
