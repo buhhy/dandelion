@@ -1,0 +1,18 @@
+version: '2'
+services:
+    server-schema:
+        build:
+            context: ../server
+            dockerfile: ./config/Dockerfile.schema.prod
+    server:
+        build:
+            context: ../server
+            dockerfile: ./config/Dockerfile.prod
+            args:
+                - NODE=production
+    client:
+        build:
+            context: ../client
+            dockerfile: ./config/Dockerfile.prod
+            args:
+                - NODE=production

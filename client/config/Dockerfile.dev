@@ -1,0 +1,13 @@
+FROM nodesource/node:6.3.0
+
+ARG NODE
+ENV NODE_ENV ${NODE}
+
+RUN useradd --user-group --create-home --shell /bin/false dandelion && echo
+ENV HOME=/home/dandelion
+WORKDIR $HOME/client
+ENV NODE_PATH $HOME/client-deps/node_modules
+
+EXPOSE 3000
+USER dandelion
+CMD ["node", "./scripts/start.js"]

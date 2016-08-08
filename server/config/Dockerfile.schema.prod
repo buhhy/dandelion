@@ -1,0 +1,9 @@
+FROM nodesource/node:6.3.0
+
+RUN useradd --user-group --create-home --shell /bin/false dandelion && echo
+ENV HOME=/home/dandelion
+WORKDIR $HOME/server
+
+USER dandelion
+RUN ./scripts/build-update.schema.sh
+CMD ["./scripts/update-schema.sh"]

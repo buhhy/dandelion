@@ -1,10 +1,6 @@
-.sass-cache
-logs
-target
-.idea
-/.classpath
-/.project
-/.settings
-/RUNNING_PID
+.DS_Store
 node_modules
 npm-debug.log
+data/schema.graphql
+.idea/
+build/

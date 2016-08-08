@@ -1,0 +1,4 @@
+Get Started
+-----------
+
+Just install Docker and run `./command/start-dev.sh`, and you should have an operational development environment.

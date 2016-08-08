@@ -1,0 +1,19 @@
+FROM nodesource/node:6.3.0
+
+ARG NODE
+ENV NODE_ENV ${NODE}
+
+RUN useradd --user-group --create-home --shell /bin/false dandelion && echo
+ENV HOME=/home/dandelion
+WORKDIR $HOME/client
+
+# ADD package.json package.json
+# RUN NODE_ENV=development npm install
+# ADD . .
+ADD . .
+RUN NODE_ENV=development npm install && node ./scripts/build.js
+# && rm -r node_modules src # this leaves out pushstate-server :-/
+
+EXPOSE 3000
+
+CMD ["./node_modules/pushstate-server/bin/pushstate-server", "build", "3000"]

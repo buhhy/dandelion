@@ -1,0 +1,7 @@
+@import 'shared';
+
+.side-navigation {
+  border-right: 1px solid $border-gray-light;
+  box-sizing: border-box;
+  width: $side-navigation-open-width;
+}
