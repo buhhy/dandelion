@@ -10,9 +10,13 @@ services:
             dockerfile: ./config/Dockerfile.prod
             args:
                 - NODE=production
+        depends_on:
+            - server-schema
     client:
         build:
             context: ../client
             dockerfile: ./config/Dockerfile.prod
             args:
                 - NODE=production
+        depends_on:
+            - server-schema

@@ -3,7 +3,9 @@ FROM nodesource/node:6.3.0
 RUN useradd --user-group --create-home --shell /bin/false dandelion && echo
 ENV HOME=/home/dandelion
 WORKDIR $HOME/server
+ENV NODE_PATH $HOME/server/node_modules
 
-USER dandelion
-RUN ./scripts/build-update.schema.sh
-CMD ["./scripts/update-schema.sh"]
+ADD . .
+RUN NODE_ENV=development npm install
+
+RUN ./scripts/build-update-schema.sh

@@ -1,11 +1,10 @@
-FROM nodesource/node:6.3.0
+FROM dandelion_server-schema
 
 ARG NODE
 ENV NODE_ENV ${NODE}
 
-RUN useradd --user-group --create-home --shell /bin/false dandelion && echo
-ENV HOME=/home/dandelion
 WORKDIR $HOME/server
+ENV NODE_PATH $HOME/server/node_modules
 
 EXPOSE 8080
 USER dandelion

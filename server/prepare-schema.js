@@ -13,7 +13,6 @@ import { introspectionQuery/*, printSchema*/ } from 'graphql/utilities';
         );
     } else {
         const str = JSON.stringify(result, null, 2);
-        fs.writeFileSync('./data/schema.json', str);
         fs.writeFileSync('../shared/schema.json', str);
     }
 })();
