@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+server/app/assets/cxi/
+server/public/javascripts/
+server/test/
