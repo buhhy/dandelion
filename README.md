@@ -1,6 +1,12 @@
-# Get Started
+# Development Guide
 
 Just install Docker and run `./command/start-dev.sh`, and you should have an operational development environment.
+
+## Common development tasks
+
+- Start the development environment: `./command/start-dev.sh`
+- View a list of docker containers: `docker ps`
+- Connect to a docker container (e.g. to see its filesystem): `docker exec -it <container id> bash`
 
 # Sysadmin Guide
 
