@@ -39,7 +39,7 @@ function startServers(callback) {
   // Compile the schema
   startGraphQLServer(callback);
 }
-const watcher = chokidar.watch('./data/schema.json');
+const watcher = chokidar.watch('./data/schema.js');
 watcher.on('change', path => {
   console.log(`\`${path}\` changed. Restarting.`);
   startServers(() =>

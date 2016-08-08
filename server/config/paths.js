@@ -49,7 +49,7 @@ if (isInCreateReactAppSource) {
     appFavicon: resolve('../favicon.ico'),
     appPackageJson: resolve('../package.json'),
     appSrc: resolve('../src'),
-    appNodeModules: resolve('../../server-deps/node_modules'),
-    ownNodeModules: resolve('../../server-deps/node_modules')
+    appNodeModules: process.env.NODE_PATH,
+    ownNodeModules: process.env.NODE_PATH
   };
 }
