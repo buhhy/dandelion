@@ -4,7 +4,7 @@ Just install Docker and run `./command/start-dev.sh`, and you should have an ope
 
 # Sysadmin Guide
 
-Run `./command/deploy.sh` to push to Docker Hub and ec2-user@terencelei.com. The first time you do this, you'll need to `docker login`.
+Run `./command/deploy.sh` to push to Docker Hub and ec2-user@terencelei.com. The first time you do this, you'll need to create a Docker Hub account that I can add to the Sheepie organization, and then `docker login`.
 
 ## Exposed ports
 
