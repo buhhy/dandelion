@@ -7,6 +7,7 @@ Just install Docker and run `./command/start-dev.sh`, and you should have an ope
 - Start the development environment: `./command/start-dev.sh`
 - View a list of docker containers: `docker ps`
 - Connect to a docker container (e.g. to see its filesystem): `docker exec -it <container id> bash`
+- Work on a GraphQL query: `http://localhost:3000/graphql`
 
 # Sysadmin Guide
 
