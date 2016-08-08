@@ -8,6 +8,8 @@ services:
             - /srv/db/dandelion-postgres:/var/lib/postgresql/data
     server:
         image: sheepie/dandelion-server
+        ports:
+            - "3001:8080"
         links:
             - db
         environment:
