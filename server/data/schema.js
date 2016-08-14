@@ -34,9 +34,11 @@ import {
 import {
   // Import methods that your schema can use to interact with your database
   User,
+  TextEntity,
   Widget,
   getUser,
   getViewer,
+  getEntities,
   getWidget,
   getWidgets,
 } from './database';
@@ -54,6 +56,8 @@ var {nodeInterface, nodeField} = nodeDefinitions(
       return getUser(id);
     } else if (type === 'Widget') {
       return getWidget(id);
+    } else if (type === "Entity") {
+      return null;
     } else {
       return null;
     }
@@ -61,8 +65,10 @@ var {nodeInterface, nodeField} = nodeDefinitions(
   (obj) => {
     if (obj instanceof User) {
       return userType;
-    } else if (obj instanceof Widget)  {
+    } else if (obj instanceof Widget) {
       return widgetType;
+    } else if (obj instanceof TextEntity) {
+      return textEntityType;
     } else {
       return null;
     }
@@ -78,11 +84,20 @@ var userType = new GraphQLObjectType({
   description: 'A person who uses our app',
   fields: () => ({
     id: globalIdField('User'),
+    name: {
+      type: GraphQLString
+    },
     widgets: {
       type: widgetConnection,
       description: 'A person\'s collection of widgets',
       args: connectionArgs,
       resolve: (_, args) => connectionFromArray(getWidgets(), args),
+    },
+    entities: {
+      type: textEntityConnection,
+      description: "User's collection of saved entities",
+      args: connectionArgs,
+      resolve: (_, args) => connectionFromArray(getEntities(), args),
     },
   }),
   interfaces: [nodeInterface],
@@ -101,11 +116,27 @@ var widgetType = new GraphQLObjectType({
   interfaces: [nodeInterface],
 });
 
+var textEntityType = new GraphQLObjectType({
+  name: 'TextEntity',
+  description: 'Entity formatted text input',
+  fields: () => ({
+    id: globalIdField('TextEntity'),
+    textValue: {
+      type: GraphQLString,
+      description: 'The raw saved text value of the entity',
+    },
+  }),
+  interfaces: [nodeInterface],
+});
+
 /**
  * Define your own connection types here
  */
 var {connectionType: widgetConnection} =
   connectionDefinitions({name: 'Widget', nodeType: widgetType});
+
+var {connectionType: textEntityConnection} =
+    connectionDefinitions({name: 'TextEntity', nodeType: textEntityType});
 
 /**
  * This is the type that will be the root of our query,

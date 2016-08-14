@@ -9,6 +9,7 @@
 
 // Model types
 class User {}
+class TextEntity {}
 class Widget {}
 
 // Mock data
@@ -22,12 +23,25 @@ var widgets = ['What\'s-it', 'Who\'s-it', 'How\'s-it'].map((name, i) => {
   return widget;
 });
 
+var entities = [
+  'This is a test value',
+  'Hello Bob',
+  'I really like mango mousse'
+].map((value, i) => {
+  var entity = new TextEntity();
+  entity.textValue = value;
+  entity.id = `${i}`;
+  return entity;
+});
+
 module.exports = {
   // Export methods that your schema can use to interact with your database
   getUser: (id) => id === viewer.id ? viewer : null,
   getViewer: () => viewer,
   getWidget: (id) => widgets.find(w => w.id === id),
   getWidgets: () => widgets,
+  getEntities: () => entities,
   User,
   Widget,
+  TextEntity,
 };
