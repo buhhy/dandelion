@@ -50,6 +50,18 @@ module.exports = {
         test: /\.js$/,
         loader: 'eslint',
         include: paths.appSrc,
+      }, {
+        test: /\.scss$/,
+        loader: combineLoaders([
+          {
+            loader: "typed-css-modules",
+            includePaths: ["src"],
+            exclude: /node_modules/
+          }, {
+            loader: "sass",
+            includePaths: ["src"]
+          }
+        ])
       }
     ],
     loaders: [
@@ -72,23 +84,25 @@ module.exports = {
       {
         test: /\.scss$/,
         include: [paths.appSrc, paths.appNodeModules],
-        loader: combineLoaders([{
+        loader: combineLoaders([
+          {
             loader: 'style'
-        }, {
+          }, {
             loader: "css",
             query: {
-                camelCase: true,
-                modules: true,
-                sourceMap: true,
-                importLoaders: 1,
-                localIdentName: "[name]_[local]_[hash:base64:5]"
+              camelCase: true,
+              modules: true,
+              sourceMap: true,
+              importLoaders: 1,
+              localIdentName: "[name]_[local]_[hash:base64:5]"
             }
-        }, {
+          }, {
             loader: "postcss"
-        }, {
+          }, {
             loader: "sass",
             includePaths: ["src"]
-        }])
+          }
+        ])
       },
       {
         test: /\.json$/,

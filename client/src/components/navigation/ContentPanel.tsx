@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-const styles = require<any>('./ContentPanel.scss');
+import * as styles from "./ContentPanel.scss";
 
 export interface ContentPanelModel {
   className?: String

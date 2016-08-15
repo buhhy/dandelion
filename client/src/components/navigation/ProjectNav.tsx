@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-const styles = require<any>('./ProjectNav.scss');
+import * as styles from './ProjectNav.scss'
 
 export interface ProjectNavModel {
   className?: String

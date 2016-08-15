@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-const styles = require<any>('./NavigationBar.scss');
+import * as styles from './NavigationBar.scss';
 
 export interface NavigationBarModel {
   actionBarLabel: String;
