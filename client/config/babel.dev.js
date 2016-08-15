@@ -1,6 +1,6 @@
 module.exports = {
   babelrc: false,
-  cacheDirectory: true,
+  cacheDirectory: false,  // changes to babel-relay-plugin and schema.json don't take effect with cache
   passPerPreset: true,  // got this from relay-starter-kit. reason?
   presets: [
     'babel-preset-es2015',

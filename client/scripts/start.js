@@ -1,4 +1,5 @@
 var path = require('path');
+var fs = require('fs');
 var chalk = require('chalk');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
@@ -184,3 +185,16 @@ detect(DEFAULT_PORT).then(port => {
     }
   });
 });
+
+// Well, node-supervisor doesn't seem to work with our Docker volume, so we
+// manually kill ourselves when the schema changes.
+let lastSchema = null;
+setInterval(() => {
+    fs.readFile('../shared/schema.json', { encoding: 'utf8' }, (err, contents) => {
+        if (err || (lastSchema && lastSchema !== contents)) {
+            process.exit(0);
+        } else {
+            lastSchema = contents;
+        }
+    });
+}, 500);

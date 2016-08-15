@@ -19,6 +19,7 @@ var widgets = ['What\'s-it', 'Who\'s-it', 'How\'s-it'].map((name, i) => {
   var widget = new Widget();
   widget.name = name;
   widget.id = `${i}`;
+  widget.blip = 'test';
   return widget;
 });
 

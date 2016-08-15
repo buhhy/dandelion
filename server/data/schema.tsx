@@ -96,7 +96,7 @@ var widgetType = new GraphQLObjectType({
     name: {
       type: GraphQLString,
       description: 'The name of the widget',
-    },
+    }
   }),
   interfaces: [nodeInterface],
 });
