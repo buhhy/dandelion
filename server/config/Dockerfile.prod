@@ -7,5 +7,4 @@ WORKDIR $HOME/server
 ENV NODE_PATH $HOME/server/node_modules
 
 EXPOSE 8080
-USER dandelion
 CMD ["./scripts/start.sh"]

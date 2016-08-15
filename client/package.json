@@ -45,6 +45,7 @@
     "sass-loader": "4.0.0",
     "source-map-loader": "0.1.5",
     "style-loader": "0.13.1",
+    "supervisor": "0.10.0",
     "ts-loader": "0.8.2",
     "typed-css-modules-loader": "0.0.3",
     "typed-css-modules": "0.1.12",
@@ -65,3 +66,4 @@
     "extends": "./config/eslint.js"
   }
 }
+ 

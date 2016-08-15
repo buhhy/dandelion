@@ -3,7 +3,8 @@
 mkdir -p ../shared
 
 node $NODE_PATH/webpack/bin/webpack.js \
-    --config ./config/webpack.config.dev.prepare-schema.js
+    --config ./config/webpack.config.dev.prepare-schema.js \
+    --quiet
 
 node $NODE_PATH/supervisor/lib/cli-wrapper.js \
     --watch ./build/prepare-schema.js \

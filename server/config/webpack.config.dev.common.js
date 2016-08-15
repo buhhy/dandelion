@@ -65,7 +65,12 @@ module.exports = function (which) {
           {
             // Typescript loader
             test: /\.tsx?$/,
-            loader: 'ts'
+            loader: combineLoaders([{
+                loader: 'babel',
+                query: require('./babel.dev')
+            }, {
+                loader: 'ts'
+            }])
           },
           {
             test: /\.js$/,

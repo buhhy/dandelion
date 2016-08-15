@@ -1,7 +1,9 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import { Schema } from './data/schema';
-import { graphql }  from 'graphql';
+import { graphql } from 'graphql';
 import { introspectionQuery/*, printSchema*/ } from 'graphql/utilities';
+
+console.log('Updating JSON of full schema introspection for Babel Relay Plugin to use');
 
 // Save JSON of full schema introspection for Babel Relay Plugin to use
 (async () => {
@@ -13,7 +15,13 @@ import { introspectionQuery/*, printSchema*/ } from 'graphql/utilities';
         );
     } else {
         const str = JSON.stringify(result, null, 2);
-        fs.writeFileSync('../shared/schema.json', str);
+        fs.writeFile('../shared/schema.json', str, err => {
+            if (err) {
+                console.error('Failed to update schema.json:', err);
+            } else {
+                console.log('Done updating schema.json!');
+            }
+        });
     }
 })();
 

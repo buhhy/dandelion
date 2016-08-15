@@ -31,6 +31,8 @@ services:
             dockerfile: ./config/Dockerfile.dev
             args:
                 - NODE=development
+        ports:
+            - "3001:8080"
         links:
             - db
         depends_on:
