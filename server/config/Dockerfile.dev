@@ -1,4 +1,4 @@
-FROM b289016cb6c7
+FROM dandeliondev_server-deps
 
 ARG NODE
 ENV NODE_ENV ${NODE}
