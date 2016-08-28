@@ -5,4 +5,5 @@ ENV HOME=/home/dandelion
 WORKDIR $HOME/server
 ENV NODE_PATH /server-deps/node_modules
 
+USER dandelion
 CMD ["./scripts/update-schema.sh"]
