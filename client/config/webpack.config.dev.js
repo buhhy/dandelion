@@ -50,6 +50,18 @@ module.exports = {
         test: /\.js$/,
         loader: 'eslint',
         include: paths.appSrc,
+      }, {
+        test: /\.scss$/,
+        loader: combineLoaders([
+          {
+            loader: "typed-css-modules",
+            includePaths: [paths.appSrc],
+            exclude: /node_modules/
+          }, {
+            loader: "sass",
+            includePaths: [paths.appSrc]
+          }
+        ])
       }
     ],
     loaders: [

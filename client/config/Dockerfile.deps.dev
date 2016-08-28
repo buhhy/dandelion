@@ -4,6 +4,7 @@ ENV NODE_ENV=development
 WORKDIR /client-deps
 
 ADD package.json package.json
+ADD local_modules local_modules
 RUN npm install
 
 CMD ["echo", "Done building client-deps."]
