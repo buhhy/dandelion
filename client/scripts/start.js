@@ -147,7 +147,7 @@ function runDevServer(port) {
     hot: true, // Note: only CSS is currently hot reloaded
     publicPath: config.output.publicPath,
     proxy: {'/graphql': `http://server:${GRAPHQL_PORT}`},
-    quiet: true,
+    // quiet: true,
     watchOptions: {
         poll: 1000
     }
