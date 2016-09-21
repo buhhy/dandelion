@@ -7,7 +7,9 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "typeRoots": ["../node_modules"],
+    "types": ["@types/d3-timer", "types.d3"]
   },
   "files": [
     "../typings/index.d.ts",
