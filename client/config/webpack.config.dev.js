@@ -2,7 +2,6 @@ var path = require('path');
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var combineLoaders = require("webpack-combine-loaders");
 var paths = require('./paths');
 
@@ -49,9 +48,10 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'eslint',
-        include: paths.appSrc,
+        include: paths.appSrc
       }, {
         test: /\.scss$/,
+        exclude: /node_modules/,
         loader: combineLoaders([
           {
             loader: "typed-css-modules",
@@ -116,7 +116,7 @@ module.exports = {
       {
         test: /\.(jpg|png|gif|eot|svg|ttf|woff|woff2)$/,
         include: [paths.appSrc, paths.appNodeModules],
-        loader: 'file',
+        loader: 'file'
       },
       {
         test: /\.(mp4|webm)$/,
@@ -139,7 +139,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
-      favicon: paths.appFavicon,
+      favicon: paths.appFavicon
     }),
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' }),
     // Note: only CSS is currently hot reloaded

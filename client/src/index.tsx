@@ -6,9 +6,8 @@ import AppHomeRoute from './routes/AppHomeRoute';
 import './index.scss';
 
 ReactDOM.render(
-  <Relay.RootContainer
-    Component={App}
-    route={new AppHomeRoute()}
-  />,
-  document.getElementById('root')
-);
+    <Relay.RootContainer
+        Component={App}
+        route={new AppHomeRoute()}
+    />,
+    document.getElementById('root'));
