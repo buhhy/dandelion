@@ -1,0 +1,18 @@
+.container {
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  min-width: 500px;
+  width: 75%;
+}
+
+.chronology {
+  flex: 0 0 auto;
+  width: 100px;
+}
+
+.card-stack {
+  flex: 1 1 auto;
+  width: 100%;
+}

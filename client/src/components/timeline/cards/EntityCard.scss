@@ -1,0 +1,37 @@
+@import "shared";
+
+.annotation {
+  color: $font-color-black-dark;
+  font-size: 11px;
+  left: 0;
+  top: -16px;
+  position: absolute;
+}
+
+.card {
+  background-color: white;
+  border: 1px solid $border-gray-lighter;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  margin: 60px 0;
+  position: relative;
+}
+
+.content {
+  flex: 1 1 auto;
+  padding: 16px;
+}
+
+.view-button {
+  border-left: 1px solid $border-gray-lighter;
+  cursor: pointer;
+  flex: 0 0 auto;
+  padding: 12px 36px;
+
+  .text {
+    color: $font-color-teal-dark;
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
