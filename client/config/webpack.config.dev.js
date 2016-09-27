@@ -22,7 +22,7 @@ module.exports = {
     publicPath: '/'
   },
   resolve: {
-    extensions: ['', '.js', '.ts', '.tsx', '.json'],
+    extensions: ['', '.js', '.ts', '.tsx', '.json', '.scss'],
     alias: {
       // This `alias` section can be safely removed after ejection.
       // We do this because `babel-runtime` may be inside `react-scripts`,
@@ -35,8 +35,8 @@ module.exports = {
       'babel-runtime/regenerator': require.resolve('babel-runtime/regenerator')
     },
     root: [
-        path.join(__dirname, '../src'),
-        paths.ownNodeModules
+      path.join(__dirname, '../src'),
+      paths.ownNodeModules
     ]
   },
   resolveLoader: {

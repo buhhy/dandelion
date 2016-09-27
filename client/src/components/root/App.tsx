@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as Relay from 'react-relay';
 import * as styles from './App.scss';
-import {NavigationBarComponent} from '../navigation/NavigationBar';
-import {ProjectNavComponent} from '../navigation/ProjectNav';
-import {ContentPanelComponent} from '../navigation/ContentPanel';
+import {NavigationBarComponent} from 'components/navigation/NavigationBar';
+import {ProjectNavComponent} from 'components/navigation/ProjectNav';
+import {ContentPanelComponent} from 'components/navigation/ContentPanel';
 
 interface Props {
   viewer: {
