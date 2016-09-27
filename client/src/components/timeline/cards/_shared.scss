@@ -3,3 +3,29 @@ $font-color-black-medium: #979797;
 $font-color-teal-dark: #389AB4;
 $border-gray-lighter: #E2E2E2;
 
+@mixin card {
+  background-color: white;
+  border: 1px solid $border-gray-lighter;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin card-header-text {
+  color: $font-color-black-dark;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@mixin action-button {
+  border-left: 1px solid $border-gray-lighter;
+  cursor: pointer;
+  flex: 0 0 auto;
+  padding: 12px 36px;
+}
+
+@mixin action-button-text {
+  color: $font-color-teal-dark;
+  font-size: 12px;
+  font-weight: 600;
+}

@@ -3,13 +3,13 @@ import * as d3Select from 'd3-selection';
 import * as d3Timer from 'd3-timer';
 import * as d3Array from 'd3-array';
 import * as styles from './Timeline.scss';
-import ReactInstance = __React.ReactInstance;
 import {TextEntityCardComponent} from "./cards/TextEntityCard";
+import {NewEntityCardComponent} from "./cards/NewEntityCard";
 
 export interface TimelineModel {
 }
 
-function isDomElement(instance: ReactInstance): instance is Element {
+function isDomElement(instance: React.ReactInstance): instance is Element {
   return (instance as Element).addEventListener !== undefined;
 }
 
@@ -20,6 +20,7 @@ export class TimelineComponent extends React.Component<TimelineModel, {}> {
           <nav className={styles.chronology}>
           </nav>
           <section className={styles.cardStack}>
+            <NewEntityCardComponent/>
             <TextEntityCardComponent/>
             <TextEntityCardComponent/>
           </section>

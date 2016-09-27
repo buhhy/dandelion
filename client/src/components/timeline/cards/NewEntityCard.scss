@@ -1,0 +1,97 @@
+@import "shared";
+
+.card {
+  @include card;
+
+  cursor: pointer;
+  flex-direction: column;
+  margin: 60px 0;
+
+  &.open {
+    cursor: inherit;
+
+    .cancel-button, .create-button {
+      display: inline-block;
+    }
+  }
+
+  .header {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .icon-container {
+    height: 28px;
+    padding: 12px 16px 12px 20px;
+  }
+
+  .title-text {
+    flex: 1 1 auto;
+  }
+
+  .add-icon {
+    height: 100%;
+    width: auto;
+  }
+
+  .cancel-button, .create-button {
+    @include action-button;
+
+    align-self: stretch;
+    display: none;
+
+    .text {
+      @include action-button-text;
+    }
+  }
+
+  .cancel-button .text {
+    color: $font-color-black-dark;
+  }
+
+  .content-container {
+    border-top: 1px solid $border-gray-lighter;
+    padding: 16px 24px;
+  }
+
+  .content-panel {
+    display: table;
+    width: 100%;
+
+    .row {
+      display: table-row;
+
+      .cell {
+        display: table-cell;
+        padding-bottom: 12px;
+        vertical-align: top;
+
+        &.left {
+          width: 60px;
+        }
+      }
+
+      .label {
+        color: $font-color-black-dark;
+        display: block;
+        font-size: 10px;
+        font-weight: 600;
+        padding-top: 0.7em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .input {
+        background-color: #F5F5F5;
+        border: 1px solid #E4E4E4;
+        border-radius: 2px;
+        box-sizing: border-box;
+        max-height: 400px;
+        padding: 4px 8px 6px;
+        resize: vertical;
+        width: 100%;
+      }
+    }
+  }
+}
