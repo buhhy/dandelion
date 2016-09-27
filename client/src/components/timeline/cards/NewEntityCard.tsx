@@ -1,23 +1,33 @@
 import * as React from 'react';
 import * as styles from './NewEntityCard.scss';
+import {TextEntityModel, EntityModel} from "models/timeline/EntityModel";
 import autobind = require('autobind-decorator');
 import classNames = require('classnames');
 
-export interface NewEntityCardModel {
+export interface NewEntityCardViewModel {
+  onCreateEntity: (_: EntityModel) => void;
 }
 
-export interface NewEntityCardState {
-  isOpen: boolean;
+// Typescript doesn't allow partial interface/class declarations, so
+// setState invocations must have all properties declared or all optional.
+export interface NewEntityCardViewState {
+  draftCount?: number;
+  isOpen?: boolean;
+  titleInputValue?: string;
+  contentInputValue?: string;
 }
 
 export class NewEntityCardComponent
-    extends React.Component<NewEntityCardModel, NewEntityCardState> {
+    extends React.Component<NewEntityCardViewModel, NewEntityCardViewState> {
 
-  constructor(props: NewEntityCardModel) {
+  constructor(props: NewEntityCardViewModel) {
     super(props);
 
     this.state = {
-      isOpen: false
+      draftCount: 0,
+      isOpen: false,
+      titleInputValue: '',
+      contentInputValue: '',
     };
   }
 
@@ -28,12 +38,31 @@ export class NewEntityCardComponent
 
   @autobind
   onCreateClick(): void {
+    this.props.onCreateEntity(new TextEntityModel({
+      title: this.state.titleInputValue,
+      content: this.state.contentInputValue,
+      createDate: Date.now(),
+      draftId: this.state.draftCount
+    }));
+
+    this.setState({ draftCount: this.state.draftCount + 1 });
+
     this.closeCard();
   }
 
   @autobind
   onHeaderClick(): void {
     if (!this.state.isOpen) this.openCard();
+  }
+
+  @autobind
+  onContentValueChange(event): void {
+    this.setState({ contentInputValue: event.target.value });
+  }
+
+  @autobind
+  onTitleValueChange(event): void {
+    this.setState({ titleInputValue: event.target.value });
   }
 
   componentDidMount(): void {
@@ -80,7 +109,11 @@ export class NewEntityCardComponent
                   </label>
                 </span>
                 <span className={`${styles.cell}`}>
-                  <input className={`${styles.input}`} type="text" />
+                  <input
+                      className={`${styles.input}`}
+                      onChange={this.onTitleValueChange}
+                      type="text"
+                      value={this.state.titleInputValue} />
                 </span>
               </div>
               <div className={styles.row}>
@@ -90,7 +123,10 @@ export class NewEntityCardComponent
                   </label>
                 </span>
                 <span className={`${styles.cell}`}>
-                  <textarea className={`${styles.input}`}/>
+                  <textarea
+                      className={`${styles.input}`}
+                      onChange={this.onContentValueChange}
+                      value={this.state.contentInputValue} />
                 </span>
               </div>
             </form>
@@ -99,7 +135,7 @@ export class NewEntityCardComponent
     );
   }
 
-  getElementByRef(ref: string): HTMLElement {
+  private getElementByRef(ref: string): HTMLElement {
     let value = this.refs[ref];
     if ((value as React.ReactInstance) instanceof HTMLElement) {
       return value as HTMLElement;
@@ -107,7 +143,7 @@ export class NewEntityCardComponent
     throw new Error(`No element found by ref '${ref}'.`);
   }
 
-  openCard(): void {
+  private openCard(): void {
     this.setState({
       isOpen: true
     });
@@ -117,7 +153,7 @@ export class NewEntityCardComponent
     container.style.display = 'block';
   }
 
-  closeCard(): void {
+  private closeCard(): void {
     this.setState({
       isOpen: false
     });

@@ -1,28 +1,52 @@
-import * as React from 'react';
-import * as d3Select from 'd3-selection';
-import * as d3Timer from 'd3-timer';
-import * as d3Array from 'd3-array';
-import * as styles from './Timeline.scss';
+import * as React from "react";
+import * as d3Select from "d3-selection";
+import * as d3Timer from "d3-timer";
+import * as d3Array from "d3-array";
+import * as styles from "./Timeline.scss";
 import {TextEntityCardComponent} from "./cards/TextEntityCard";
 import {NewEntityCardComponent} from "./cards/NewEntityCard";
+import {TimelineModel} from "models/timeline/TimelineModel";
+import {TextEntityModel, EntityModel} from "models/timeline/EntityModel";
+import autobind = require("autobind-decorator");
 
-export interface TimelineModel {
+export interface TimelineViewModel {
+  model?: TimelineModel;
 }
 
 function isDomElement(instance: React.ReactInstance): instance is Element {
   return (instance as Element).addEventListener !== undefined;
 }
 
-export class TimelineComponent extends React.Component<TimelineModel, {}> {
+export class TimelineComponent extends React.Component<TimelineViewModel, {}> {
+  public static defaultProps: TimelineViewModel = {
+    model: new TimelineModel()
+  };
+
+  @autobind
+  onCreateEntity(newEntity: EntityModel): void {
+    this.props.model.addEntity(newEntity);
+    this.forceUpdate();
+  }
+
   render(): JSX.Element {
     return (
         <article className={styles.container}>
           <nav className={styles.chronology}>
           </nav>
           <section className={styles.cardStack}>
-            <NewEntityCardComponent/>
-            <TextEntityCardComponent/>
-            <TextEntityCardComponent/>
+            <NewEntityCardComponent onCreateEntity={this.onCreateEntity} />
+            {
+              this.props.model.entities.map((entity) => {
+                if (entity instanceof TextEntityModel) {
+                  return (
+                      <TextEntityCardComponent
+                          key={entity.uniqueId()}
+                          model={entity} />
+                  );
+                }
+                return null;
+              })
+            }
           </section>
           <svg height="300" width="800" ref="svg" />
         </article>
