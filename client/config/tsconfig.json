@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "jsx": "react",
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es6",
-    "sourceMap": true,
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "es6",
     "typeRoots": ["../node_modules"],
     "types": ["@types/d3-timer", "types.d3"]
   },
   "files": [
-    "../typings/index.d.ts",
     "../typings/require.d.ts"
   ]
 }

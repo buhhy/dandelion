@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/ce71f72bcec4d09702b969d6743b52d9780a661f/react-relay/react-relay.d.ts",
-    "raw": "registry:dt/react-relay#0.9.2+20160729215536",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/ce71f72bcec4d09702b969d6743b52d9780a661f/react-relay/react-relay.d.ts"
-  }
-}
