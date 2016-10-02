@@ -24,8 +24,10 @@ export class TimelineComponent extends React.Component<TimelineViewModel, {}> {
 
   @autobind
   onCreateEntity(newEntity: EntityModel): void {
-    this.props.model.addEntity(newEntity);
-    this.forceUpdate();
+    if (this.props.model != undefined) {
+      this.props.model.addEntity(newEntity);
+      this.forceUpdate();
+    }
   }
 
   render(): JSX.Element {
@@ -36,16 +38,19 @@ export class TimelineComponent extends React.Component<TimelineViewModel, {}> {
           <section className={styles.cardStack}>
             <NewEntityCardComponent onCreateEntity={this.onCreateEntity} />
             {
-              this.props.model.entities.map((entity) => {
-                if (entity instanceof TextEntityModel) {
-                  return (
-                      <TextEntityCardComponent
-                          key={entity.uniqueId()}
-                          model={entity} />
-                  );
-                }
-                return null;
-              })
+              (() => {
+                if (this.props.model == undefined) return null;
+                return (this.props.model.entities || []).map((entity) => {
+                  if (entity instanceof TextEntityModel) {
+                    return (
+                        <TextEntityCardComponent
+                            key={entity.uniqueId()}
+                            model={entity} />
+                    );
+                  }
+                  return null;
+                });
+              })()
             }
           </section>
           <svg height="300" width="800" ref="svg" />

@@ -39,8 +39,8 @@ export class NewEntityCardComponent
   @autobind
   onCreateClick(): void {
     this.props.onCreateEntity(new TextEntityModel({
-      title: this.state.titleInputValue,
-      content: this.state.contentInputValue,
+      title: this.state.titleInputValue || '',
+      content: this.state.contentInputValue || '',
       createDate: Date.now(),
       draftId: this.state.draftCount
     }));
@@ -72,7 +72,7 @@ export class NewEntityCardComponent
   render(): JSX.Element {
     let cardClassNames = classNames(
         styles.card,
-        {[styles.open]: this.state.isOpen});
+        {[styles.open]: this.state.isOpen || false});
 
     return (
         <section className={cardClassNames}>

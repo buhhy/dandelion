@@ -43,6 +43,6 @@ export class TextEntityModel extends EntityModel {
   }) {
     super(args);
     this.title = args.title;
-    this.content = args.content;
+    this.content = args.content || '';
   }
 }
