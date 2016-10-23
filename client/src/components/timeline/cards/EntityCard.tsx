@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as styles from './EntityCard.scss';
 
-export interface EntityCardModel {
+export interface EntityCardComponentModel {
   className?: String;
 }
 
@@ -12,8 +12,10 @@ export interface EntityCardModel {
  * right side. The uploader name is annotated above the top left of the card
  * object.
  */
-export class EntityCardComponent extends React.Component<EntityCardModel, {}> {
-  public static defaultProps: EntityCardModel = {
+export class EntityCardComponent
+    extends React.Component<EntityCardComponentModel, {}> {
+
+  public static defaultProps: EntityCardComponentModel = {
     className: ''
   };
 

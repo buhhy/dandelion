@@ -56,13 +56,17 @@ export class NewEntityCardComponent
   }
 
   @autobind
-  onContentValueChange(event): void {
-    this.setState({ contentInputValue: event.target.value });
+  onContentValueChange(event: React.FormEvent<HTMLTextAreaElement>): void {
+    this.setState({
+      contentInputValue: event.currentTarget.value
+    });
   }
 
   @autobind
-  onTitleValueChange(event): void {
-    this.setState({ titleInputValue: event.target.value });
+  onTitleValueChange(event: React.FormEvent<HTMLInputElement>): void {
+    this.setState({
+      titleInputValue: event.currentTarget.value
+    });
   }
 
   componentDidMount(): void {

@@ -23,7 +23,7 @@ export class EntityModel {
     this.deleteDate = args.deleteDate;
   }
 
-  uniqueId(): string {
+  get uniqueId(): string {
     return `${this.id}##${this.draftId}`
   }
 }

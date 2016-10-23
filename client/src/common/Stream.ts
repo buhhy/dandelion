@@ -1,32 +1,34 @@
 type StreamListenerFn<EventType> = (type: EventType) => any;
 type SubscriptionCancelFn = () => boolean;
+type Listeners<EventType> = Set<StreamListenerFn<EventType>>;
+type ListenersStore<EventType> = Map<string, Listeners<EventType>>;
 
-class Stream<EventType> {
-  constructor(private listeners: Map<String, Set<StreamListenerFn>>) {}
+export class Stream<EventType> {
+  constructor(private listeners: ListenersStore<EventType>) {}
 
   listen(
-      eventName: String,
+      eventName: string,
       listener: StreamListenerFn<EventType>): StreamSubscription<EventType> {
-    let listenerSet = this.listeners.get(eventName) || new Set<EventType>();
+    let listenerSet = this.listeners.get(eventName) || new Set<StreamListenerFn<EventType>>();
     this.listeners.set(eventName, listenerSet.add(listener));
+
     return new StreamSubscription(this.removeListener(eventName, listener));
   }
 
   private removeListener(
-      eventName: String,
+      eventName: string,
       listener: StreamListenerFn<EventType>): SubscriptionCancelFn {
     return () => {
-      if (!this.listeners.has(eventName) ||
-          !this.listeners[eventName].has(listener)) {
-        return false;
-      }
-      this.listeners[eventName].delete(listener);
+      let listenerSet = this.listeners.get(eventName);
+      if (!listenerSet || listenerSet.has(listener)) return false;
+
+      listenerSet.delete(listener);
       return true;
     }
   }
 }
 
-class StreamSubscription<EventType> {
+export class StreamSubscription<EventType> {
   constructor(
       private subscriptionCanceler: SubscriptionCancelFn) {}
 
@@ -38,13 +40,16 @@ class StreamSubscription<EventType> {
   }
 }
 
-class StreamController<EventType> {
-  private readonly listeners: Set<StreamListenerFn> = new Set();
+export class StreamController<EventType> {
+  private readonly listeners: ListenersStore<EventType> = new Map();
 
   readonly stream: Stream<EventType> = new Stream(this.listeners);
 
-  add(event: EventType): void {
-    this.listeners.forEach((listener: StreamListenerFn<EventType>) => {
+  add(eventName: string, event: EventType): void {
+    let listenerSet = this.listeners.get(eventName);
+    if (!listenerSet) return;
+
+    listenerSet.forEach((listener) => {
       listener(event);
     });
   }
