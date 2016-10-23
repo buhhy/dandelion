@@ -8,6 +8,7 @@ import {NewEntityCardComponent} from "./cards/NewEntityCard";
 import {TimelineModel} from "models/timeline/TimelineModel";
 import {TextEntityModel, EntityModel} from "models/timeline/EntityModel";
 import autobind = require("autobind-decorator");
+import {DotLineComponent} from './DotLine';
 
 export interface TimelineViewModel {
   model?: TimelineModel;
@@ -33,8 +34,9 @@ export class TimelineComponent extends React.Component<TimelineViewModel, {}> {
   render(): JSX.Element {
     return (
         <article className={styles.container}>
-          <nav className={styles.chronology}>
-          </nav>
+          <DotLineComponent
+              className={styles.chronology}
+              timelineModel={this.props.model} />
           <section className={styles.cardStack}>
             <NewEntityCardComponent onCreateEntity={this.onCreateEntity} />
             {
