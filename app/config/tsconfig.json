@@ -10,7 +10,7 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "es6",
-    "typeRoots": ["../node_modules"],
+    "typeRoots": ["/client_deps/node_modules"],
     "types": ["@types/d3-timer", "types.d3"]
   },
   "files": [

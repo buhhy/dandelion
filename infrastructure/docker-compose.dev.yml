@@ -4,63 +4,42 @@ services:
         image: postgres
         ports:
             - "3002:5432"
-    client-deps:
+    deps:
         build:
-            context: ../client
+            context: ../app
             dockerfile: ./config/Dockerfile.deps.dev
         volumes:
             - dandelion:/home/dandelion
-    server-deps:
+    schema:
         build:
-            context: ../server
-            dockerfile: ./config/Dockerfile.deps.dev
-        volumes:
-            - dandelion:/home/dandelion
-    server-schema:
-        build:
-            context: ../server
+            context: ../app
             dockerfile: ./config/Dockerfile.schema.dev
         depends_on:
-            - server-deps
+            - deps
         volumes:
             - dandelion:/home/dandelion
-            - ../server:/home/dandelion/server
-    server:
+            - ../app:/home/dandelion/app
+    app:
         build:
-            context: ../server
-            dockerfile: ./config/Dockerfile.dev
-            args:
-                - NODE=development
-        ports:
-            - "3001:8080"
-        links:
-            - db
-        depends_on:
-            - db
-            - server-deps
-            - server-schema
-        volumes:
-            - dandelion:/home/dandelion
-            - ../server:/home/dandelion/server
-        environment:
-            - PGHOST=db
-            - PGDATABASE=postgres
-            - PGUSER=postgres
-    client:
-        build:
-            context: ../client
+            context: ../app
             dockerfile: ./config/Dockerfile.dev
             args:
                 - NODE=development
         ports:
             - "3000:3000"
+            - "3001:8080"
         links:
-            - server
+            - db
         depends_on:
-            - server
-            - client-deps
+            - db
+            - deps
+            - schema
         volumes:
             - dandelion:/home/dandelion
-            - ../client:/home/dandelion/client
+            - ../app:/home/dandelion/app
+        environment:
+            - PGHOST=db
+            - PGDATABASE=postgres
+            - PGUSER=postgres
 volumes:
     dandelion: {}

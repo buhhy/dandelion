@@ -4,17 +4,13 @@ services:
         image: postgres
         ports:
             - "3002:5432"
-    server:
-        image: sheepie/dandelion-server
+    app:
+        image: sheepie/dandelion-app
+        ports:
+            - "3000:3000"
         links:
             - db
         environment:
             - PGHOST=db
             - PGDATABASE=postgres
             - PGUSER=postgres
-    client:
-        image: sheepie/dandelion-client
-        ports:
-            - "3000:3000"
-        links:
-            - server

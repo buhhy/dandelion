@@ -1,22 +1,14 @@
 version: '2'
 services:
-    server-schema:
+    schema:
         build:
-            context: ../server
+            context: ../app
             dockerfile: ./config/Dockerfile.schema.prod
-    server:
+    app:
         build:
-            context: ../server
+            context: ../app
             dockerfile: ./config/Dockerfile.prod
             args:
                 - NODE=production
         depends_on:
-            - server-schema
-    client:
-        build:
-            context: ../client
-            dockerfile: ./config/Dockerfile.prod
-            args:
-                - NODE=production
-        depends_on:
-            - server-schema
+            - schema
