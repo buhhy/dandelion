@@ -2,6 +2,7 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "jsx": "react",
+    "lib": ["dom", "es6"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": true,
@@ -10,8 +11,8 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "es6",
-    "typeRoots": ["/client_deps/node_modules"],
-    "types": ["@types/d3-timer", "types.d3"]
+    "typeRoots": ["/client_deps/node_modules", "../node_modules"],
+    "types": ["d3-selection", "d3-timer", "core-js", "types.d3"]
   },
   "files": [
     "../typings/require.d.ts"

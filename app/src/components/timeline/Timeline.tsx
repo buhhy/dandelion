@@ -1,51 +1,61 @@
-import * as React from "react";
-import * as d3Select from "d3-selection";
-import * as d3Timer from "d3-timer";
-import * as d3Array from "d3-array";
-import * as styles from "./Timeline.scss";
-import {TextEntityCardComponent} from "./cards/TextEntityCard";
-import {NewEntityCardComponent} from "./cards/NewEntityCard";
-import {TimelineModel} from "models/timeline/TimelineModel";
-import {TextEntityModel, EntityModel} from "models/timeline/EntityModel";
+import * as React from 'react';
+import * as d3Select from 'd3-selection';
+import * as d3Timer from 'd3-timer';
+import * as d3Array from 'd3-array';
+import * as styles from './Timeline.scss';
+import {TextEntityCardComponent} from './cards/TextEntityCard';
+import {NewEntityCardComponent} from './cards/NewEntityCard';
+import {TextEntityModel, EntityModel} from 'models/timeline/EntityModel';
+import {DotLineComponent} from './DotLine';
+import {TimelineController, TimelineEntityModel} from './TimelineController';
 import autobind = require("autobind-decorator");
 
-export interface TimelineViewModel {
-  model?: TimelineModel;
+export interface TimelineComponentModel {
+  model?: TimelineController;
 }
 
 function isDomElement(instance: React.ReactInstance): instance is Element {
   return (instance as Element).addEventListener !== undefined;
 }
 
-export class TimelineComponent extends React.Component<TimelineViewModel, {}> {
-  public static defaultProps: TimelineViewModel = {
-    model: new TimelineModel()
+export class TimelineComponent
+    extends React.Component<TimelineComponentModel, {}> {
+
+  public static defaultProps: TimelineComponentModel = {
+    model: new TimelineController()
   };
 
   @autobind
   onCreateEntity(newEntity: EntityModel): void {
-    this.props.model.addEntity(newEntity);
-    this.forceUpdate();
+    if (this.props.model != undefined) {
+      this.props.model.addEntity({entity: newEntity});
+      this.forceUpdate();
+    }
   }
 
   render(): JSX.Element {
     return (
         <article className={styles.container}>
-          <nav className={styles.chronology}>
-          </nav>
+          <DotLineComponent
+              className={styles.chronology}
+              timelineModel={this.props.model} />
           <section className={styles.cardStack}>
             <NewEntityCardComponent onCreateEntity={this.onCreateEntity} />
             {
-              this.props.model.entities.map((entity) => {
-                if (entity instanceof TextEntityModel) {
-                  return (
-                      <TextEntityCardComponent
-                          key={entity.uniqueId()}
-                          model={entity} />
-                  );
-                }
-                return null;
-              })
+              (() => {
+                if (this.props.model == undefined) return null;
+                return this.props.model.visibleEntities.map((entityModel) => {
+                  var entity = entityModel.entity;
+                  if (entity instanceof TextEntityModel) {
+                    return (
+                        <TextEntityCardComponent
+                            key={entity.uniqueId}
+                            model={entity} />
+                    );
+                  }
+                  return null;
+                });
+              })()
             }
           </section>
           <svg height="300" width="800" ref="svg" />

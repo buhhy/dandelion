@@ -23,7 +23,7 @@ export class EntityModel {
     this.deleteDate = args.deleteDate;
   }
 
-  uniqueId(): string {
+  get uniqueId(): string {
     return `${this.id}##${this.draftId}`
   }
 }
@@ -43,6 +43,6 @@ export class TextEntityModel extends EntityModel {
   }) {
     super(args);
     this.title = args.title;
-    this.content = args.content;
+    this.content = args.content || '';
   }
 }

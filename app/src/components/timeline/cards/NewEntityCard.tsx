@@ -39,8 +39,8 @@ export class NewEntityCardComponent
   @autobind
   onCreateClick(): void {
     this.props.onCreateEntity(new TextEntityModel({
-      title: this.state.titleInputValue,
-      content: this.state.contentInputValue,
+      title: this.state.titleInputValue || '',
+      content: this.state.contentInputValue || '',
       createDate: Date.now(),
       draftId: this.state.draftCount
     }));
@@ -56,13 +56,17 @@ export class NewEntityCardComponent
   }
 
   @autobind
-  onContentValueChange(event): void {
-    this.setState({ contentInputValue: event.target.value });
+  onContentValueChange(event: React.FormEvent<HTMLTextAreaElement>): void {
+    this.setState({
+      contentInputValue: event.currentTarget.value
+    });
   }
 
   @autobind
-  onTitleValueChange(event): void {
-    this.setState({ titleInputValue: event.target.value });
+  onTitleValueChange(event: React.FormEvent<HTMLInputElement>): void {
+    this.setState({
+      titleInputValue: event.currentTarget.value
+    });
   }
 
   componentDidMount(): void {
@@ -72,7 +76,7 @@ export class NewEntityCardComponent
   render(): JSX.Element {
     let cardClassNames = classNames(
         styles.card,
-        {[styles.open]: this.state.isOpen});
+        {[styles.open]: this.state.isOpen || false});
 
     return (
         <section className={cardClassNames}>
