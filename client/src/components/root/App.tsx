@@ -7,11 +7,12 @@ import {ContentPanelComponent} from 'components/navigation/ContentPanel';
 
 interface Props {
   viewer: {
-    widgets: {
+    timeline: {
       edges: {
         node: {
           id: string,
-          name: string
+          title: string,
+          content: string
         }
       }[]
     }
@@ -33,7 +34,7 @@ class App extends React.Component<Props, {}> {
 
           <h1>Relay test</h1>
           <ul>
-            {this.props.viewer.widgets.edges.map(edge =>
+            {this.props.viewer.timeline.edges.map(edge =>
                 <li key={edge.node.id}>{edge.node.name} (ID: {edge.node.id})</li>
             )}
           </ul>
@@ -46,11 +47,12 @@ export default Relay.createContainer(App, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        widgets(first: 10) {
+        timeline(first: 10) {
           edges {
             node {
               id,
-              name,
+              title,
+              content
             },
           },
         },

@@ -32,15 +32,12 @@ import {
 } from 'graphql-relay';
 
 import {
-  // Import methods that your schema can use to interact with your database
   User,
   TextEntity,
-  Widget,
   getUser,
   getViewer,
+  getEntity,
   getEntities,
-  getWidget,
-  getWidgets,
 } from './database';
 
 /**
@@ -54,10 +51,8 @@ var {nodeInterface, nodeField} = nodeDefinitions(
     var {type, id} = fromGlobalId(globalId);
     if (type === 'User') {
       return getUser(id);
-    } else if (type === 'Widget') {
-      return getWidget(id);
-    } else if (type === "Entity") {
-      return null;
+    } else if (type === "TextEntity") {
+      return getEntity(id);
     } else {
       return null;
     }
@@ -65,8 +60,6 @@ var {nodeInterface, nodeField} = nodeDefinitions(
   (obj) => {
     if (obj instanceof User) {
       return userType;
-    } else if (obj instanceof Widget) {
-      return widgetType;
     } else if (obj instanceof TextEntity) {
       return textEntityType;
     } else {
@@ -87,11 +80,11 @@ var userType = new GraphQLObjectType({
     name: {
       type: GraphQLString
     },
-    widgets: {
-      type: widgetConnection,
-      description: 'A person\'s collection of widgets',
+    timeline: {
+      type: textEntityConnection,
+      description: "User's timeline of entities",
       args: connectionArgs,
-      resolve: (_, args) => connectionFromArray(getWidgets(), args),
+      resolve: (_, args) => connectionFromArray(getEntities(), args),
     },
     entities: {
       type: textEntityConnection,
@@ -103,40 +96,31 @@ var userType = new GraphQLObjectType({
   interfaces: [nodeInterface],
 });
 
-var widgetType = new GraphQLObjectType({
-  name: 'Widget',
-  description: 'A shiny widget',
-  fields: () => ({
-    id: globalIdField('Widget'),
-    name: {
-      type: GraphQLString,
-      description: 'The name of the widget',
-    }
-  }),
-  interfaces: [nodeInterface],
-});
-
 var textEntityType = new GraphQLObjectType({
   name: 'TextEntity',
   description: 'Entity formatted text input',
   fields: () => ({
     id: globalIdField('TextEntity'),
-    textValue: {
+    title: {
       type: GraphQLString,
-      description: 'The raw saved text value of the entity',
+      description: 'The title of the entity',
+    },
+    content: {
+      type: GraphQLString,
+      description: 'The content of the entity',
     },
   }),
   interfaces: [nodeInterface],
 });
 
 /**
- * Define your own connection types here
+ * Define your own connection types here.
+ *
+ * Connection types include edges and pageInfo, for pagination.
  */
-var {connectionType: widgetConnection} =
-  connectionDefinitions({name: 'Widget', nodeType: widgetType});
 
 var {connectionType: textEntityConnection} =
-    connectionDefinitions({name: 'TextEntity', nodeType: textEntityType});
+  connectionDefinitions({name: 'TextEntity', nodeType: textEntityType});
 
 /**
  * This is the type that will be the root of our query,
