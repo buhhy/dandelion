@@ -16,7 +16,7 @@ interface Props {
         }
       }[]
     }
-  }
+  };
 }
 
 class App extends React.Component<Props, {}> {
@@ -29,15 +29,10 @@ class App extends React.Component<Props, {}> {
               actionBarLabel="Ads" />
           <section className={styles.content}>
             <ProjectNavComponent className={styles.projectNavigation} />
-            <ContentPanelComponent className={styles.contentPanel} />
+            <ContentPanelComponent
+                className={styles.contentPanel}
+                timeline={this.props.viewer.timeline} />
           </section>
-
-          <h1>Relay test</h1>
-          <ul>
-            {this.props.viewer.timeline.edges.map(edge =>
-                <li key={edge.node.id}>{edge.node.name} (ID: {edge.node.id})</li>
-            )}
-          </ul>
         </section>
     );
   }
@@ -47,16 +42,9 @@ export default Relay.createContainer(App, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        timeline(first: 10) {
-          edges {
-            node {
-              id,
-              title,
-              content
-            },
-          },
-        },
+        id,
+        timeline(first: 10) { ${ContentPanelComponent.getFragment('timeline')} }
       }
     `,
-  },
+  }
 });
