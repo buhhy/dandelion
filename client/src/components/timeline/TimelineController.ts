@@ -16,7 +16,7 @@ export class TimelineController {
   }
 
   addEntity({entity, animate = true}: {entity: EntityModel, animate?: boolean}) {
-    var newEntity = new TimelineEntityModel(entity);
+    var newEntity = new TimelineEntityModel({entity: entity, positionY: 0});
 
     this.visibleEntities.push(newEntity);
     this.changeStreamController.add(
@@ -25,5 +25,11 @@ export class TimelineController {
 }
 
 export class TimelineEntityModel {
-  constructor(public entity: EntityModel) {}
+  public readonly entity: EntityModel;
+  public readonly positionY: number;
+
+  constructor({entity, positionY}: {entity: EntityModel, positionY: number}) {
+    this.entity = entity;
+    this.positionY = positionY;
+  }
 }
