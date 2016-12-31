@@ -7,15 +7,16 @@ import {ContentPanelComponent} from 'components/navigation/ContentPanel';
 
 interface Props {
   viewer: {
-    widgets: {
+    timeline: {
       edges: {
         node: {
           id: string,
-          name: string
+          title: string,
+          content: string
         }
       }[]
     }
-  }
+  };
 }
 
 class App extends React.Component<Props, {}> {
@@ -28,15 +29,10 @@ class App extends React.Component<Props, {}> {
               actionBarLabel="Ads" />
           <section className={styles.content}>
             <ProjectNavComponent className={styles.projectNavigation} />
-            <ContentPanelComponent className={styles.contentPanel} />
+            <ContentPanelComponent
+                className={styles.contentPanel}
+                timeline={this.props.viewer.timeline} />
           </section>
-
-          <h1>Relay test</h1>
-          <ul>
-            {this.props.viewer.widgets.edges.map(edge =>
-                <li key={edge.node.id}>{edge.node.name} (ID: {edge.node.id})</li>
-            )}
-          </ul>
         </section>
     );
   }
@@ -46,15 +42,9 @@ export default Relay.createContainer(App, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        widgets(first: 10) {
-          edges {
-            node {
-              id,
-              name,
-            },
-          },
-        },
+        id,
+        timeline(first: 10) { ${ContentPanelComponent.getFragment('timeline')} }
       }
     `,
-  },
+  }
 });

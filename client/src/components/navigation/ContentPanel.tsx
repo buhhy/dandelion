@@ -1,13 +1,22 @@
 import * as React from 'react';
+import * as Relay from 'react-relay';
 import * as styles from "./ContentPanel.scss";
-import {TimelineComponent} from "../timeline/Timeline";
+import {TimelineComponent} from "components/timeline/Timeline";
 
 export interface ContentPanelModel {
-  className?: String
+  className?: String;
+  timeline: {
+    edges: {
+      node: {
+        id: string,
+        title: string,
+        content: string
+      }
+    }[]
+  };
 }
 
-export class ContentPanelComponent
-    extends React.Component<ContentPanelModel, {}> {
+class ContentPanelComponent extends React.Component<ContentPanelModel, {}> {
   public static defaultProps: ContentPanelModel = {
     className: ''
   };
@@ -15,8 +24,20 @@ export class ContentPanelComponent
   render(): JSX.Element {
     return (
         <section className={`${this.props.className} ${styles.panel}`}>
-          <TimelineComponent />
+          <TimelineComponent timeline={this.props.timeline} />
         </section>
     )
   }
 }
+
+const Container = Relay.createContainer(ContentPanelComponent, {
+  fragments: {
+    timeline: () => Relay.QL`
+      fragment on TextEntityConnection {
+        ${TimelineComponent.getFragment('timeline')}
+      }
+    `
+  }
+});
+
+export {Container as ContentPanelComponent};

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Relay from 'react-relay';
 import * as d3Select from 'd3-selection';
 import * as d3Timer from 'd3-timer';
 import * as d3Array from 'd3-array';
@@ -7,18 +8,30 @@ import {TextEntityCardComponent} from './cards/TextEntityCard';
 import {NewEntityCardComponent} from './cards/NewEntityCard';
 import {TextEntityModel, EntityModel} from 'models/timeline/EntityModel';
 import {DotLineComponent} from './DotLine';
-import {TimelineController, TimelineEntityModel} from './TimelineController';
+import {TimelineController} from './TimelineController';
 import autobind = require("autobind-decorator");
+
+interface TimelineEntityConnection {
+  edges: {
+    node: {
+      type: string,
+      id: string,
+      title: string,
+      content: string
+    }
+  }[]
+}
 
 export interface TimelineComponentModel {
   model?: TimelineController;
+  timeline: TimelineEntityConnection;
 }
 
 function isDomElement(instance: React.ReactInstance): instance is Element {
   return (instance as Element).addEventListener !== undefined;
 }
 
-export class TimelineComponent
+class TimelineComponent
     extends React.Component<TimelineComponentModel, {}> {
 
   public static defaultProps: TimelineComponentModel = {
@@ -33,6 +46,16 @@ export class TimelineComponent
     }
   }
 
+  renderTimelineEntityConnection(entityConnection: TimelineEntityConnection): JSX.Element {
+    return entityConnection.edges.map(edge => {
+      const {node} = edge;
+      if (node.type === 'TextEntity') {
+        const entity = new TextEntityModel(node);
+        return <TextEntityCardComponent key={node.id} model={entity} />;
+      }
+    });
+  }
+
   render(): JSX.Element {
     return (
         <article className={styles.container}>
@@ -41,22 +64,7 @@ export class TimelineComponent
               timelineModel={this.props.model} />
           <section className={styles.cardStack}>
             <NewEntityCardComponent onCreateEntity={this.onCreateEntity} />
-            {
-              (() => {
-                if (this.props.model == undefined) return null;
-                return this.props.model.visibleEntities.map((entityModel) => {
-                  var entity = entityModel.entity;
-                  if (entity instanceof TextEntityModel) {
-                    return (
-                        <TextEntityCardComponent
-                            key={entity.uniqueId}
-                            model={entity} />
-                    );
-                  }
-                  return null;
-                });
-              })()
-            }
+            {this.renderTimelineEntityConnection(this.props.timeline)}
           </section>
           <svg height="300" width="800" ref="svg" />
         </article>
@@ -64,6 +72,9 @@ export class TimelineComponent
   }
 
   componentDidMount(): void {
+    return;
+    // Is this just to appease TypeScript? It should not be
+    // possible for the DOM node to not exist after the component has mounted.
     if (!isDomElement(this.refs['svg'])) return;
 
     var alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -112,3 +123,32 @@ export class TimelineComponent
     }, 1500);
   }
 }
+
+const TimelineComponentContainer = Relay.createContainer(TimelineComponent, {
+  initialVariables: {
+    viewer: {
+      timeline: {
+        edges: [
+          {cursor: 'cursor1', node: {id: 'id1', title: 'title1', content: 'content1'}},
+          {cursor: 'cursor2', node: {id: 'id2', title: 'title2', content: 'content2'}},
+        ],
+      }
+    }
+  },
+  fragments: {
+    timeline: () => Relay.QL`
+      fragment on TextEntityConnection {
+        edges {
+          node {
+            type: __typename,
+            id,
+            title,
+            content
+          }
+        }
+      }
+    `
+  }
+});
+
+export {TimelineComponentContainer as TimelineComponent};

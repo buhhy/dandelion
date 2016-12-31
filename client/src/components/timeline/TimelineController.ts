@@ -1,5 +1,7 @@
 import {EntityModel} from 'models/timeline/EntityModel';
-import {Stream, StreamController} from '../../common/Stream';
+// Suggestion: Prefer project-absolute paths to relative paths, to ease
+// reuse and refactoring.
+import {Stream, StreamController} from 'common/Stream';
 
 export class TimelineController {
   static readonly eventTypeNewEntity = 'add';
