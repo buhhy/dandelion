@@ -69,10 +69,6 @@ export class NewEntityCardComponent
     });
   }
 
-  componentDidMount(): void {
-    this.closeCard();
-  }
-
   render(): JSX.Element {
     let cardClassNames = classNames(
         styles.card,
