@@ -23,9 +23,9 @@ class ContentPanelComponent extends React.Component<ContentPanelModel, {}> {
 
   render(): JSX.Element {
     return (
-        <section className={`${this.props.className} ${styles.panel}`}>
-          <TimelineComponent timeline={this.props.timeline} />
-        </section>
+      <section className={`${this.props.className} ${styles.panel}`}>
+        <TimelineComponent timeline={this.props.timeline} />
+      </section>
     )
   }
 }

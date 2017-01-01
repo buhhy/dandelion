@@ -125,16 +125,6 @@ class TimelineComponent
 }
 
 const TimelineComponentContainer = Relay.createContainer(TimelineComponent, {
-  initialVariables: {
-    viewer: {
-      timeline: {
-        edges: [
-          {cursor: 'cursor1', node: {id: 'id1', title: 'title1', content: 'content1'}},
-          {cursor: 'cursor2', node: {id: 'id2', title: 'title2', content: 'content2'}},
-        ],
-      }
-    }
-  },
   fragments: {
     timeline: () => Relay.QL`
       fragment on TextEntityConnection {
