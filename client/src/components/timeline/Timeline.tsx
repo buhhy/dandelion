@@ -32,33 +32,6 @@ class TimelineComponent
     this.forceUpdate();
   }
 
-  renderEntityGroups(): JSX.Element[] {
-    const visibleEntities = this.props.timeline.edges
-        .map(edge => {
-          const {node} = edge;
-          // Support other model types.
-          if (node.type === 'TextEntity')
-            return new TextEntityModel(node);
-          return null;
-        })
-        .filter(value => value != null);
-
-    const dateToEntities = new Map<string, EntityModel>();
-
-    visibleEntities.forEach((entity) => {
-      const entities = dateToEntities.get(entity.createDateHash) || [];
-      entities.push(entity);
-      dateToEntities.set(entity.createDateHash, entities);
-    });
-
-    const sortedDates = Array.from(dateToEntities.keys()).sort();
-
-    return sortedDates.map((date) =>
-        <EntityCardGroupComponent
-            key={date}
-            entities={dateToEntities.get(date)} />);
-  }
-
   render(): JSX.Element {
     return (
         <article className={styles.container}>
@@ -71,6 +44,33 @@ class TimelineComponent
           </section>
         </article>
     );
+  }
+
+  private renderEntityGroups(): JSX.Element[] {
+    const visibleEntities: EntityModel[] = this.props.timeline.edges
+        .map(edge => {
+          const {node} = edge;
+          // Support other model types.
+          if (node.type === 'TextEntity')
+            return new TextEntityModel(node);
+          return null;
+        })
+        .filter(value => value != null);
+
+    const dateToEntities = new Map<string, EntityModel[]>();
+
+    visibleEntities.forEach((entity) => {
+      const entities = dateToEntities.get(entity.createDateHash) || [];
+      entities.push(entity);
+      dateToEntities.set(entity.createDateHash, entities);
+    });
+
+    const sortedDates = Array.from(dateToEntities.keys()).sort();
+
+    return sortedDates.map((date) =>
+        <EntityCardGroupComponent
+            key={date}
+            entities={dateToEntities.get(date) || []} />);
   }
 }
 

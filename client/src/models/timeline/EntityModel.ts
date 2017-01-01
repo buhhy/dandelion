@@ -19,8 +19,8 @@ export class EntityModel {
     this.id = args.id;
     this.draftId = args.draftId;
     this.createDate = new Date(args.createDate);
-    this.modifyDate = new Date(args.modifyDate);
-    this.deleteDate = new Date(args.deleteDate);
+    this.modifyDate = args.modifyDate == undefined ? undefined : new Date(args.modifyDate);
+    this.deleteDate = args.deleteDate == undefined ? undefined : new Date(args.deleteDate);
   }
 
   get uniqueId(): string {

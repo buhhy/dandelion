@@ -11,18 +11,19 @@ export class TimelineController {
   readonly visibleEntities: TimelineEntityModel[] = [];
 
   private readonly changeStreamController =
-      new StreamController<TimelineEntityModel>();
+      new StreamController<TimelineEntityModel[]>();
 
-  get changeStream(): Stream<TimelineEntityModel> {
+  get changeStream(): Stream<TimelineEntityModel[]> {
     return this.changeStreamController.stream;
   }
 
-  addEntity({entity, animate = true}: {entity: EntityModel, animate?: boolean}) {
-    var newEntity = new TimelineEntityModel({entity: entity, positionY: 0});
+  addEntities({entities, animate = true}: {entities: EntityModel[], animate?: boolean}) {
+    const newEntities = entities.map((entity) =>
+        new TimelineEntityModel({entity: entity, positionY: 0}));
 
-    this.visibleEntities.push(newEntity);
+    newEntities.forEach((newEntity) => this.visibleEntities.push(newEntity));
     this.changeStreamController.add(
-        TimelineController.eventTypeNewEntity, newEntity);
+        TimelineController.eventTypeNewEntity, newEntities);
   }
 }
 
