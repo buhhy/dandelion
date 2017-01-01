@@ -1,12 +1,12 @@
 export class EntityModel {
-  readonly id?: number;
+  readonly id?: string;
   readonly draftId?: number;
-  readonly createDate: number;
-  readonly modifyDate?: number;
-  readonly deleteDate?: number;
+  readonly createDate: Date;
+  readonly modifyDate?: Date;
+  readonly deleteDate?: Date;
 
   constructor(args: {
-    id?: number,
+    id?: string,
     draftId?: number,
     createDate: number,
     modifyDate?: number,
@@ -18,13 +18,20 @@ export class EntityModel {
 
     this.id = args.id;
     this.draftId = args.draftId;
-    this.createDate = args.createDate;
-    this.modifyDate = args.modifyDate;
-    this.deleteDate = args.deleteDate;
+    this.createDate = new Date(args.createDate);
+    this.modifyDate = new Date(args.modifyDate);
+    this.deleteDate = new Date(args.deleteDate);
   }
 
   get uniqueId(): string {
     return `${this.id}##${this.draftId}`
+  }
+
+  get createDateHash(): string {
+    const d = this.createDate.getDate();
+    const m = this.createDate.getMonth() + 1;
+    const y = this.createDate.getFullYear();
+    return `${y}${m < 10 ? `0${m}` : m}${d < 10 ? `0${d}` : d}`;
   }
 }
 
@@ -33,7 +40,7 @@ export class TextEntityModel extends EntityModel {
   readonly content: string;
 
   constructor(args: {
-    id?: number,
+    id?: string,
     draftId?: number,
     createDate: number,
     modifyDate?: number,
@@ -46,3 +53,5 @@ export class TextEntityModel extends EntityModel {
     this.content = args.content || '';
   }
 }
+
+
