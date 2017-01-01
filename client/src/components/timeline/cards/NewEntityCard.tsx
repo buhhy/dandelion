@@ -78,6 +78,14 @@ export class NewEntityCardComponent
         styles.card,
         {[styles.open]: this.state.isOpen || false});
 
+    const containerStyle = this.state.isOpen ? {
+      height: 'auto',
+      display: 'block',
+    } : {
+      height: 0,
+      display: 'none',
+    };
+
     return (
         <section className={cardClassNames}>
           <header className={styles.header} onClick={this.onHeaderClick}>
@@ -104,8 +112,8 @@ export class NewEntityCardComponent
               </span>
             </button>
           </header>
-          <section className={styles.contentContainer} ref="contentContainer">
-            <form className={styles.contentPanel} ref="contentPanel">
+          <section className={styles.contentContainer} style={containerStyle}>
+            <form className={styles.contentPanel}>
               <div className={styles.row}>
                 <span className={`${styles.cell} ${styles.left}`}>
                   <label className={styles.label}>
@@ -139,31 +147,11 @@ export class NewEntityCardComponent
     );
   }
 
-  private getElementByRef(ref: string): HTMLElement {
-    let value = this.refs[ref];
-    if ((value as React.ReactInstance) instanceof HTMLElement) {
-      return value as HTMLElement;
-    }
-    throw new Error(`No element found by ref '${ref}'.`);
-  }
-
   private openCard(): void {
-    this.setState({
-      isOpen: true
-    });
-
-    let container = this.getElementByRef('contentContainer');
-    container.style.height = 'auto';
-    container.style.display = 'block';
+    this.setState({ isOpen: true });
   }
 
   private closeCard(): void {
-    this.setState({
-      isOpen: false
-    });
-
-    let container = this.getElementByRef('contentContainer');
-    container.style.height = '0';
-    container.style.display = 'none';
+    this.setState({ isOpen: false });
   }
 }
