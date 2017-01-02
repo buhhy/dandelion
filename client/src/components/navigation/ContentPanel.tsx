@@ -1,25 +1,23 @@
 import * as React from 'react';
 import * as Relay from 'react-relay';
 import * as styles from "./ContentPanel.scss";
-import {TimelineComponent} from "components/timeline/Timeline";
+import {
+  TimelineComponent,
+  EntityModelConnection
+} from "components/timeline/Timeline";
 
 export interface ContentPanelModel {
   className?: String;
   viewer: {id: string},
-  timeline: {
-    edges: {
-      node: {
-        id: string,
-        title: string,
-        content: string
-      }
-    }[]
-  };
+  timeline: EntityModelConnection
 }
 
 class ContentPanelComponent extends React.Component<ContentPanelModel, {}> {
   public static defaultProps: ContentPanelModel = {
-    className: ''
+    className: '',
+    timeline: {
+      edges: []
+    },
   };
 
   render(): JSX.Element {
