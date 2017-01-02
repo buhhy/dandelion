@@ -17,21 +17,23 @@ var viewer = new User();
 viewer.id = '1';
 viewer.name = 'Anonymous';
 
-var entities = [
-  'This is a test value',
-  'Hello Bob',
-  'I really like mango mousse'
-].map((value, i) => {
-  var entity = new TextEntity();
+const makeEntity = ({title, content}, i) => {
+  const entity = new TextEntity();
   entity.id = `${i}`;
   entity.draftId = `${i}`;
   entity.createDate = +new Date;
   entity.modifyDate = +new Date;
   entity.deleteDate = +new Date;
-  entity.title = value;
-  entity.content = value + ' ' + value;
+  entity.title = title;
+  entity.content = content;
   return entity;
-});
+};
+
+let entities = [
+  'This is a test value',
+  'Hello Bob',
+  'I really like mango mousse'
+].map((value, i) => makeEntity({title: value}, i));
 
 module.exports = {
   // Export methods that your schema can use to interact with your database
@@ -39,6 +41,12 @@ module.exports = {
   getViewer: () => viewer,
   getEntity: (id) => entities.find(e => e.id === id),
   getEntities: () => entities,
+  addEntity: ({draftId, title, content}) => {
+    const idx = entities.length;
+    const newEntities = [makeEntity({title, content}, idx)];
+    entities = newEntities.concat(entities);
+    return idx;
+  },
   User,
   TextEntity,
 };

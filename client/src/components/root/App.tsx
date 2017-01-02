@@ -31,6 +31,7 @@ class App extends React.Component<Props, {}> {
             <ProjectNavComponent className={styles.projectNavigation} />
             <ContentPanelComponent
                 className={styles.contentPanel}
+                viewer={this.props.viewer}
                 timeline={this.props.viewer.timeline} />
           </section>
         </section>
@@ -42,7 +43,7 @@ export default Relay.createContainer(App, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        id,
+        ${ContentPanelComponent.getFragment('viewer')},
         timeline(first: 10) { ${ContentPanelComponent.getFragment('timeline')} }
       }
     `,

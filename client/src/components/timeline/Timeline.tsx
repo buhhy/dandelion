@@ -24,6 +24,7 @@ interface TimelineEntityConnection {
 
 export interface TimelineComponentModel {
   model?: TimelineController;
+  viewer: {id: string};
   timeline: TimelineEntityConnection;
 }
 
@@ -63,7 +64,9 @@ class TimelineComponent
               className={styles.chronology}
               timelineModel={this.props.model} />
           <section className={styles.cardStack}>
-            <NewEntityCardComponent onCreateEntity={this.onCreateEntity} />
+            <NewEntityCardComponent
+                viewer={this.props.viewer}
+                onCreateEntity={this.onCreateEntity} />
             {this.renderTimelineEntityConnection(this.props.timeline)}
           </section>
           <svg height="300" width="800" ref="svg" />
@@ -137,7 +140,12 @@ const TimelineComponentContainer = Relay.createContainer(TimelineComponent, {
           }
         }
       }
-    `
+    `,
+    viewer: () => Relay.QL`
+      fragment on User {
+        ${NewEntityCardComponent.getFragment('viewer')}
+      }
+    `,
   }
 });
 

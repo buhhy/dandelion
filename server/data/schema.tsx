@@ -38,6 +38,7 @@ import {
   getViewer,
   getEntity,
   getEntities,
+  addEntity,
 } from './database';
 
 /**
@@ -119,7 +120,7 @@ var textEntityType = new GraphQLObjectType({
  * Connection types include edges and pageInfo, for pagination.
  */
 
-var {connectionType: textEntityConnection} =
+var {connectionType: textEntityConnection, edgeType: textEntityEdge} =
   connectionDefinitions({name: 'TextEntity', nodeType: textEntityType});
 
 /**
@@ -130,12 +131,43 @@ var queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
     node: nodeField,
-    // Add your own root fields here
     viewer: {
       type: userType,
       resolve: () => getViewer(),
     },
   }),
+});
+
+var entityMutation = mutationWithClientMutationId({
+  name: 'IntroduceEntity',
+  inputFields: {
+    title: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    content: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+  },
+  outputFields: {
+    node: {
+      type: textEntityType,
+      resolve: payload => getEntity(payload.entityId),
+    },
+    edge: {
+      type: textEntityEdge,
+      resolve: payload => ({
+        node: getEntity(payload.entityId),
+        cursor: 123
+      }),
+    },
+    viewer: {
+      type: userType,
+      resolve: () => getViewer(),
+    },
+  },
+  mutateAndGetPayload: ({title, content}) => {
+    return { entityId: addEntity({title, content}) };
+  },
 });
 
 /**
@@ -145,7 +177,7 @@ var queryType = new GraphQLObjectType({
 var mutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
-    // Add your own mutations here
+    introduceEntity: entityMutation
   })
 });
 
@@ -155,6 +187,5 @@ var mutationType = new GraphQLObjectType({
  */
 export var Schema = new GraphQLSchema({
   query: queryType,
-  // Uncomment the following after adding some mutation fields:
-  // mutation: mutationType
+  mutation: mutationType
 });

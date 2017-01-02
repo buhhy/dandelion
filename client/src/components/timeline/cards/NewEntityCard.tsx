@@ -1,10 +1,14 @@
 import * as React from 'react';
+import * as Relay from 'react-relay';
 import * as styles from './NewEntityCard.scss';
-import {TextEntityModel, EntityModel} from "models/timeline/EntityModel";
+import {TextEntityModel, EntityModel} from 'models/timeline/EntityModel';
+import CreateEntityMutation from 'mutations/CreateEntityMutation';
 import autobind = require('autobind-decorator');
 import classNames = require('classnames');
 
 export interface NewEntityCardViewModel {
+  relay: any;
+  viewer: {id: string};
   onCreateEntity: (_: EntityModel) => void;
 }
 
@@ -17,7 +21,7 @@ export interface NewEntityCardViewState {
   contentInputValue?: string;
 }
 
-export class NewEntityCardComponent
+class NewEntityCardComponent
     extends React.Component<NewEntityCardViewModel, NewEntityCardViewState> {
 
   constructor(props: NewEntityCardViewModel) {
@@ -38,11 +42,10 @@ export class NewEntityCardComponent
 
   @autobind
   onCreateClick(): void {
-    this.props.onCreateEntity(new TextEntityModel({
-      title: this.state.titleInputValue || '',
-      content: this.state.contentInputValue || '',
-      createDate: Date.now(),
-      draftId: this.state.draftCount
+    this.props.relay.commitUpdate(new CreateEntityMutation({
+      viewer: this.props.viewer,
+      title: this.state.titleInputValue,
+      content: this.state.contentInputValue,
     }));
 
     this.setState({ draftCount: this.state.draftCount + 1 });
@@ -151,3 +154,16 @@ export class NewEntityCardComponent
     this.setState({ isOpen: false });
   }
 }
+
+const NewEntityCardComponentContainer =
+  Relay.createContainer(NewEntityCardComponent, {
+    fragments: {
+      viewer: () => Relay.QL`
+        fragment on User {
+          ${CreateEntityMutation.getFragment('viewer')}
+        }
+      `,
+    }
+  });
+
+export {NewEntityCardComponentContainer as NewEntityCardComponent};

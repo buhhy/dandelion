@@ -5,6 +5,7 @@ import {TimelineComponent} from "components/timeline/Timeline";
 
 export interface ContentPanelModel {
   className?: String;
+  viewer: {id: string},
   timeline: {
     edges: {
       node: {
@@ -24,7 +25,9 @@ class ContentPanelComponent extends React.Component<ContentPanelModel, {}> {
   render(): JSX.Element {
     return (
       <section className={`${this.props.className} ${styles.panel}`}>
-        <TimelineComponent timeline={this.props.timeline} />
+        <TimelineComponent
+            viewer={this.props.viewer}
+            timeline={this.props.timeline} />
       </section>
     )
   }
@@ -36,7 +39,12 @@ const Container = Relay.createContainer(ContentPanelComponent, {
       fragment on TextEntityConnection {
         ${TimelineComponent.getFragment('timeline')}
       }
-    `
+    `,
+    viewer: () => Relay.QL`
+      fragment on User {
+        ${TimelineComponent.getFragment('viewer')}
+      }
+    `,
   }
 });
 
